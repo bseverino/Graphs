@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from util import Stack, Queue, Node  # These may come in handy
 
 class Graph:
 
@@ -94,22 +94,27 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        result = [starting_vertex]
         queue = Queue()
-        queue.enqueue(starting_vertex)
+        queue.enqueue(Node(starting_vertex))
 
         visited = set()
 
         while queue.size() > 0:
             vert = queue.dequeue()
+            if vert.value == destination_vertex:
+                result = []
+                current_node = vert
+                while current_node is not None:
+                    result.append(current_node.value)
+                    current_node = current_node.prev
+                result.reverse()
+                return result
+            if vert.value not in visited:
+                visited.add(vert.value)
+                for next_vert in self.get_neighbors(vert.value):
+                    queue.enqueue(Node(next_vert, vert))
 
-            if vert not in visited:
-                result.append(vert)
-                if vert == destination_vertex:
-                    return result
-                visited.add(vert)
-                for next_vert in self.get_neighbors(vert):
-                    queue.enqueue(vert)
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
