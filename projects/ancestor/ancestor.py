@@ -36,9 +36,7 @@ def earliest_ancestor(ancestors, starting_node):
             family_tree.add_vertex(ancestor[0])
         if ancestor[1] not in family_tree.vertices:
             family_tree.add_vertex(ancestor[1])
-
-    for relationship in ancestors:
-        family_tree.add_edge(relationship[1], relationship[0])
+        family_tree.add_edge(ancestor[1], ancestor[0])
 
     queue = Queue()
     queue.enqueue(starting_node)
@@ -61,4 +59,4 @@ def earliest_ancestor(ancestors, starting_node):
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 
-print(earliest_ancestor(test_ancestors, 1))
+print(earliest_ancestor(test_ancestors, 6))
